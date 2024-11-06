@@ -33,7 +33,7 @@ async def index(request: Request):
         result = machine.is_valid()
 
     
-    return "Reultado: " + result if result else "Cadena no aceptada, verique que la cadena corresponda con lo indicado"
+    return result if result else "Cadena no aceptada, verique que la cadena corresponda con lo indicado"
 
 
 serve()

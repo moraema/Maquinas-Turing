@@ -3,44 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" href="../static/images/images.png" type="image/png">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/scripts.js"></script>                                                                   
     <title>Máquina de Turing</title>
-    <script>
-        async function ejecutarMaquina(event) {
-            event.preventDefault();
-            const cinta = document.querySelector('input[name="cinta"]').value;
-            const resultadoDiv = document.getElementById("resultado");
-
-          
-            resultadoDiv.innerHTML = '<span class="mensaje-validando">Validando cadena...</span>';
-
-            
-            const response = await fetch("http://localhost:5001/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({ cinta })
-            });
-
-            
-            const resultado = await response.text();
-            setTimeout(() => {
-                resultadoDiv.innerText = `Resultado: ${resultado}`;
-            }, 1000);
-            
-        }
-    </script>
 </head>
 <body>
-    <h1>Máquina de Turing: Vulenerabilidades</h1>
+    <h1>Máquina de Turing</h1>
+
+    <p>
+        Esta es una máquina de Turing, diseñada para procesar cadenas de puertos abiertos obtenidos por Nmap, 
+        la cual, al ingresar, menciona algunas posibles vulnerabilidades.
+    </p>
+    
     <form onsubmit="ejecutarMaquina(event)">
         <input type="text" name="cinta" placeholder="Ingresa la cinta" required>
         <button type="submit">Ejecutar</button>
     </form>
-    <div>
-        <p id="resultado">Resultado: </p>
+
+    <button id="verEjemplosBtn" onclick="abrirModal('modalEjemplos')">Ejemplos de cinta</button>
+    <button id="verExplicacionBtn" onclick="abrirModal('modalExplicacion')">Explicación de vulnerabilidades</button>
+
+    <div id="modalEjemplos" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modalEjemplos')">&times;</span>
+            <h2>Ejemplos de Cintas de entradas</h2>
+            <ul>
+                <li>Cinta 1: 80/tcp-open-http</li>
+                <li>Cinta 2: 995/tcp-open-pop3</li>
+                <li>Cinta 3: 8080/tcp-open-http-proxy</li>
+                <li>Cinta 4: 21/tcp-open-ftp</li>
+                <li>Cinta 5: 23/tcp-open-telnet</li>
+            </ul>
+        </div>
     </div>
+
+    <div id="modalExplicacion" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modalExplicacion')">&times;</span>
+            <h2>Explicación de Vulnerabilidades</h2>
+            <ul>
+                <li><strong>Amplificación DDoS:</strong> La mala configuración puede hacer que el atacante envía pequeñas solicitudes que generan respuestas mucho más grandes, sobrecargando el servidor.</li>
+                <li><strong>Configuración SSL/TLS:</strong> configuración incorrecta puede exponer los datos a ataques de downgrade o MITM</li>
+                <li><strong>Spoofing:</strong>posible falsificar correos electrónicos (spoofing), engañando a los destinatarios.</li>
+                <li><strong>Inyección SQL:</strong> Permite a los atacantes ejecutar consultas en la base de datos.</li>
+                <li><strong>Transferencia sin cifrado:</strong> Los datos se envían en texto plano, vulnerable a interceptación.</li>
+                <li><strong>Explotación SSH:</strong> Acceso no autorizado mediante vulnerabilidades o credenciales débiles.</li>
+                <li><strong>Ataques MITM en Telnet:</strong> Datos sin cifrar, susceptibles a interceptación y manipulación.</li>
+                <li><strong>Spoofing en SMTP:</strong> Permite falsificar correos y engañar a destinatarios.</li>
+                <li><strong>Denegación de servicio:</strong>un servicio de comunicación entre procesos de Microsoft, puede ser vulnerado para causar denegación de servicio (DoS) si el servicio está expuesto y no está protegido.</li>
+                <li><strong>Ataques de sniffing en POP3 e IMAP:</strong> Credenciales e información pueden ser capturadas sin cifrado.</li>
+                <li><strong>Acceso no autorizado en NetBIOS:</strong> Puede exponer archivos compartidos en la red.</li>
+                <li><strong>Información de red en SNMP:</strong> Configuración de red puede ser expuesta, útil para ataques.</li>
+                <li><strong>Amplificación DDoS en DNS:</strong> Utiliza consultas para sobrecargar servidores objetivo.</li>
+                <li><strong>Expolits:</strong> vulnerable a ataques de fuerza bruta y explotación de vulnerabilidades del servicio que pueden dar acceso al sistema.</li>
+                <li><strong>Compartir archivo en red:</strong> NetBIOS expuesto puede permitir a los atacantes acceder a recursos compartidos de la red, llevando a la extracción de información confidencial</li>
+                <li><strong>Red mal configurada:</strong> Microsoft-DS pueden permitir a los atacantes ejecutar comandos de forma remota o distribuir malware en la red</li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <p id="resultado" class="resultado-mostrar">
+            <strong>Posibles vulnerabilidades:</strong><br>
+            <span class="resultado-info">${resultado}</span>
+        </p>
+    </div>
+    <img src="../static/images/vuln.png" alt="Logo" id="logo" />
 </body>
 </html>
-
