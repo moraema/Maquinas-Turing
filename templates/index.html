@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Máquina de Turing</title>
+    <script>
+        async function ejecutarMaquina(event) {
+            event.preventDefault();
+            const cinta = document.querySelector('input[name="cinta"]').value;
+            const resultadoDiv = document.getElementById("resultado");
+
+          
+            resultadoDiv.innerHTML = '<span class="mensaje-validando">Validando cadena...</span>';
+
+            
+            const response = await fetch("http://localhost:5001/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ cinta })
+            });
+
+            
+            const resultado = await response.text();
+            setTimeout(() => {
+                resultadoDiv.innerText = `Resultado: ${resultado}`;
+            }, 1000);
+            
+        }
+    </script>
+</head>
+<body>
+    <h1>Máquina de Turing: Vulenerabilidades</h1>
+    <form onsubmit="ejecutarMaquina(event)">
+        <input type="text" name="cinta" placeholder="Ingresa la cinta" required>
+        <button type="submit">Ejecutar</button>
+    </form>
+    <div>
+        <p id="resultado">Resultado: </p>
+    </div>
+</body>
+</html>
+
